@@ -327,9 +327,9 @@ To increase your score, move toward the opponent and attack the opponent. To pre
                     invalid_moves.append(move)
 
             if len(invalid_moves) > 1:
-                print(f"Many invalid moves: {invalid_moves}")
+                print(f"[{char_color}] Many invalid moves: {invalid_moves}")
 
-            print(f"Next moves: {valid_moves}\n")
+            print(f"[{char_color}] Next moves: {valid_moves}\n")
             return valid_moves
 
     def call_llm(
