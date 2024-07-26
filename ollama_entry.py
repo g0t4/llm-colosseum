@@ -26,7 +26,7 @@ def main():
         player_2=Player2(
             nickname="Daddy",
             # model="ollama:qwen:14b-chat-v1.5-fp16",
-            model="ollama:mistral",
+            model="ollama:llama3.1:8b",
         ),
     )
 
