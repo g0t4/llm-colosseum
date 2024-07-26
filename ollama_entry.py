@@ -20,13 +20,13 @@ def main():
         save_game=True,
         player_1=Player1(
             nickname="Baby",
-            model="ollama:qwen:14b-chat-v1.5-fp16",
+            # model="ollama:qwen:14b-chat-v1.5-fp16",
             # model="ollama:mistral",
-        ),
+            model="ollama:llama3:8b"),
         player_2=Player2(
             nickname="Daddy",
-            model="ollama:qwen:14b-chat-v1.5-fp16",
-            # model="ollama:mistral",
+            # model="ollama:qwen:14b-chat-v1.5-fp16",
+            model="ollama:mistral",
         ),
     )
 
