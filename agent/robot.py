@@ -20,7 +20,7 @@ from .config import (
     X_SIZE,
     Y_SIZE,
 )
-from .observer import detect_position_from_color
+from .observer import KEN_RED, detect_position_from_color
 from .llm import get_client
 
 
@@ -298,35 +298,38 @@ To increase your score, move toward the opponent and attack the opponent. To pre
             llm_response = ""
 
             for r in llm_stream:
-                print(r.delta, end="")
+                # print(r.delta, end="")
                 llm_response += r.delta
 
-                # The response is a bullet point list of moves. Use regex
-                matches = re.findall(r"- ([\w ]+)", llm_response)
-                moves = ["".join(match) for match in matches]
-                invalid_moves = []
-                valid_moves = []
-                for move in moves:
-                    cleaned_move_name = move.strip().lower()
-                    if cleaned_move_name in META_INSTRUCTIONS_WITH_LOWER.keys():
-                        if self.player_nb == 1:
-                            print(
-                                f"[red] Player {self.player_nb} move: {cleaned_move_name}"
-                            )
-                        elif self.player_nb == 2:
-                            print(
-                                f"[green] Player {self.player_nb} move: {cleaned_move_name}"
-                            )
-                        valid_moves.append(cleaned_move_name)
-                    else:
-                        logger.debug(f"Invalid completion: {move}")
-                        logger.debug(f"Cleaned move name: {cleaned_move_name}")
-                        invalid_moves.append(move)
+            char_color = ("red" if self.character_color == KEN_RED else "green").upper()
 
-                if len(invalid_moves) > 1:
-                    logger.warning(f"Many invalid moves: {invalid_moves}")
+            print(f"{char_color} ({self.model}): {llm_response}")
+            # The response is a bullet point list of moves. Use regex
+            matches = re.findall(r"- ([\w ]+)", llm_response)
+            moves = ["".join(match) for match in matches]
+            invalid_moves = []
+            valid_moves = []
+            for move in moves:
+                cleaned_move_name = move.strip().lower()
+                if cleaned_move_name in META_INSTRUCTIONS_WITH_LOWER.keys():
+                    # if self.player_nb == 1:
+                    #     print(
+                    #         f"[red] Player {self.player_nb} move: {cleaned_move_name}"
+                    #     )
+                    # elif self.player_nb == 2:
+                    #     print(
+                    #         f"[green] Player {self.player_nb} move: {cleaned_move_name}"
+                    #     )
+                    valid_moves.append(cleaned_move_name)
+                else:
+                    #logger.debug(f"Invalid completion: {move}")
+                    #logger.debug(f"Cleaned move name: {cleaned_move_name}")
+                    invalid_moves.append(move)
 
-            logger.debug(f"Next moves: {valid_moves}")
+            if len(invalid_moves) > 1:
+                print(f"Many invalid moves: {invalid_moves}")
+
+            print(f"Next moves: {valid_moves}\n")
             return valid_moves
 
     def call_llm(
@@ -368,7 +371,7 @@ Example if the opponent is far:
         ]
         resp = client.stream_chat(messages)
 
-        logger.debug(f"LLM call to {self.model}: {system_prompt}")
-        logger.debug(f"LLM call to {self.model}: {time.time() - start_time}s")
+        # logger.debug(f"LLM call to {self.model}: {system_prompt}")
+        # logger.debug(f"LLM call to {self.model}: {time.time() - start_time}s") # egads this is not completion time though, just time to send first part of response unless stream_chat is synchronous for entire response but then why would they enumerate on response as a stream in caller?
 
         return resp
