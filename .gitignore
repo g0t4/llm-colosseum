@@ -1,3 +1,5 @@
+.venv/
+
 doapp.zip
 __pycache__
 .env
