@@ -301,9 +301,9 @@ To increase your score, move toward the opponent and attack the opponent. To pre
                 # print(r.delta, end="")
                 llm_response += r.delta
 
-            char_color = ("red" if self.character_color == KEN_RED else "green").upper()
+            char_color = ("red" if self.character_color == KEN_RED else "green")
 
-            print(f"{char_color} ({self.model}): {llm_response}")
+            print(f"[{char_color}] ({self.model}): {llm_response}")
             # The response is a bullet point list of moves. Use regex
             matches = re.findall(r"- ([\w ]+)", llm_response)
             moves = ["".join(match) for match in matches]
