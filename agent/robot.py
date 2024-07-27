@@ -294,6 +294,7 @@ To increase your score, move toward the opponent and attack the opponent. To pre
 
             # adding support for streaming the response
             # this should make the players faster!
+            # IIUC there is no way to make streaming faster b/c we have to wait for the entire response before any actions are taken on the parsed (next) moves.
 
             llm_response = ""
 
